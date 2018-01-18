@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfProfile xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/FileAmalgamationService.Models">
+  <Profile>
+    <Inputs>
+      <Input>
+        <Encoding i:nil="true" />
+        <Expressions />
+        <Recursive>true</Recursive>
+        <SubFolder i:nil="true" />
+        <Type>Text</Type>
+        <Value>--FILE AMALGAMATION</Value>
+      </Input>
+      <Input>
+        <Encoding>UTF-8</Encoding>
+        <Expressions />
+        <Recursive>true</Recursive>
+        <SubFolder i:nil="true" />
+        <Type>FileSearchExpressionRegex</Type>
+        <Value>*regex to filter file names*</Value>
+      </Input>
+    </Inputs>
+    <Outputs>
+      <Output>
+        <Encoding i:nil="true" />
+        <FileName>OUT\out.sql</FileName>
+      </Output>
+    </Outputs>
+    <Root>*folder to be monitored*</Root>
+    <Separator>
+--SEPARATOR--
+</Separator>
+  </Profile>
+</ArrayOfProfile>

@@ -1,0 +1,30 @@
+[
+  {
+    "Root": "*full path here*",
+    "Inputs": [
+      {
+        "Type": "Text",
+        "Value": "--FILE AMALGAMATION",
+        "SubFolder": null,
+        "Recursive": true,
+        "Encoding": null,
+        "Expressions": []
+      },
+      {
+        "Type": "FileSearchExpressionRegex",
+        "Value": "*regex to filter file names*",
+        "SubFolder": null,
+        "Recursive": true,
+        "Encoding": "UTF-8",
+        "Expressions": []
+      }
+    ],
+    "Outputs": [
+      {
+        "FileName": "OUT\\out.sql",
+        "Encoding": null
+      }
+    ],
+    "Separator": "\r\n--SEPARATOR--\r\n"
+  }
+]

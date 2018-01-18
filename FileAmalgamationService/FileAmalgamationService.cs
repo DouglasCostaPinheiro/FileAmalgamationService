@@ -16,19 +16,20 @@ namespace FileAmalgamationService
     {
         private List<Profile> profiles;
         private List<FolderTimer> folderTimers;
-        public static new EventLog EventLog = new EventLog();
 
         public FileAmalgamationService()
         {
             InitializeComponent();
 
+            EventLog.DeleteEventSource(nameof(FileAmalgamationService));
+
             if (!EventLog.SourceExists(nameof(FileAmalgamationService)))
             {
-                EventLog.CreateEventSource(nameof(FileAmalgamationService), "Application");
+                EventLog.CreateEventSource(nameof(FileAmalgamationService), nameof(FileAmalgamationService));
             }
 
             EventLog.Source = nameof(FileAmalgamationService);
-            EventLog.Log = "Application";
+            EventLog.Log = nameof(FileAmalgamationService);
         }
 
         internal void TestStartupAndStop(string[] args)
@@ -43,7 +44,7 @@ namespace FileAmalgamationService
             EventLog.WriteEntry("FileAmalgamationService started.", EventLogEntryType.Information);
             LoadProfiles();
 
-            folderTimers = this.profiles.Select(p => new FolderTimer(p)).ToList();
+            folderTimers = this.profiles.Select(p => new FolderTimer(p, this.EventLog)).ToList();
         }
 
         protected override void OnStop()

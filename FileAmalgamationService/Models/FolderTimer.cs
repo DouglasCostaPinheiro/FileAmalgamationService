@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,14 @@ namespace FileAmalgamationService.Models
         public Timer Timer { get; private set; }
         public FileSystemWatcher FolderWatcher { get; private set; }
         private Profile Profile { get; set; }
+        public EventLog EventLog { get; set; }
 
-        public FolderTimer(Profile profile)
+        public FolderTimer(Profile profile, EventLog eventLog)
         {
             this.Profile = profile;
+            this.EventLog = eventLog;
 
-            FileAmalgamationService.EventLog.WriteEntry(string.Format("Profile loaded: FolderTimer configured to watch '{0}'", this.Profile.Root));
+            this.EventLog.WriteEntry(string.Format("Profile loaded: FolderTimer configured to watch '{0}'", this.Profile.Root));
             
             this.Timer = new Timer()
             {
@@ -46,14 +49,14 @@ namespace FileAmalgamationService.Models
         {
             if (this.Profile.Outputs.All(o => !(Path.Combine(this.Profile.Root, o.FileName) == e.FullPath)))
             {
-                FileAmalgamationService.EventLog.WriteEntry(string.Format("Event of type '{0}' in file '{1}' triggered.", e.ChangeType, e.FullPath));
+                this.EventLog.WriteEntry(string.Format("Event of type '{0}' in file '{1}' triggered.", e.ChangeType, e.FullPath));
                 if (this.Timer.Enabled)
                 {
-                    FileAmalgamationService.EventLog.WriteEntry("Resetting previous timer...");
+                    this.EventLog.WriteEntry("Resetting previous timer...");
                     this.Timer.Stop();
                 }
                 this.Timer.Start();
-                FileAmalgamationService.EventLog.WriteEntry(string.Format("Files will be processed in {0} seconds, unless a new change resets the timer.", this.Timer.Interval / 1000));
+                this.EventLog.WriteEntry(string.Format("Files will be processed in {0} seconds, unless a new change resets the timer.", this.Timer.Interval / 1000));
             }
         }
     }
