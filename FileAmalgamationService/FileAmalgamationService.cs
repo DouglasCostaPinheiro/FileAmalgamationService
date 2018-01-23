@@ -21,8 +21,6 @@ namespace FileAmalgamationService
         {
             InitializeComponent();
 
-            EventLog.DeleteEventSource(nameof(FileAmalgamationService));
-
             if (!EventLog.SourceExists(nameof(FileAmalgamationService)))
             {
                 EventLog.CreateEventSource(nameof(FileAmalgamationService), nameof(FileAmalgamationService));
@@ -40,7 +38,6 @@ namespace FileAmalgamationService
 
         protected override void OnStart(string[] args)
         {
-            //System.Diagnostics.Debugger.Launch();
             EventLog.WriteEntry("FileAmalgamationService started.", EventLogEntryType.Information);
             LoadProfiles();
 
