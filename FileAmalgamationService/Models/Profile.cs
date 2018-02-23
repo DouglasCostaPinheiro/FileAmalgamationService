@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FileAmalgamationService.Support;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -70,11 +71,11 @@ namespace FileAmalgamationService.Models
                         break;
                     case Enums.InputType.FileSearchExpressionFilter:
                         dir = new DirectoryInfo(Path.Combine(this.Root, inp.SubFolder ?? ""));
-                        v = string.Join(this.Separator,dir.GetFiles(inp.Value).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding)));
+                        v = string.Join(this.Separator,dir.GetFiles(inp.Value).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
                         break;
                     case Enums.InputType.FileSearchExpressionRegex:
                         dir = new DirectoryInfo(Path.Combine(this.Root, inp.SubFolder ?? ""));
-                        v = string.Join(this.Separator, dir.GetFiles().Where(file => new Regex(inp.Value, RegexOptions.CultureInvariant).IsMatch(file.Name)).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding)));
+                        v = string.Join(this.Separator, dir.GetFiles().Where(file => new Regex(inp.Value, RegexOptions.CultureInvariant).IsMatch(file.Name)).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
                         break;
                 }
 

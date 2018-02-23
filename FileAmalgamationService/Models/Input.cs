@@ -34,7 +34,7 @@ namespace FileAmalgamationService.Models
             get
             {
                 if (this.Encoding == null)
-                    return System.Text.Encoding.UTF8;
+                    return null;
                 return System.Text.Encoding.GetEncoding(this.Encoding);
             }
         }
