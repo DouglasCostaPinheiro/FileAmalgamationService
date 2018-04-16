@@ -19,6 +19,9 @@ namespace FileAmalgamationService.Models
         [DataMember]
         public string Encoding { get; private set; }
 
+        [DataMember]
+        public string SubFolder { get; set; }
+
         [JsonIgnore]
         public Encoding ParsedEncoding
         {
@@ -30,9 +33,10 @@ namespace FileAmalgamationService.Models
             }
         }
 
-        public Output(string fileName, string encoding = null)
+        public Output(string fileName, string subFolder,  string encoding = null)
         {
             this.FileName = fileName;
+            this.SubFolder = subFolder;
             this.Encoding = encoding;
         }
 

@@ -90,7 +90,7 @@ namespace FileAmalgamationService.Models
             foreach (var outp in this.Outputs)
             {
                 var finalValue = string.Join(this.Separator, builder);
-                var fi = new FileInfo(Path.Combine(this.Root, outp.FileName));
+                var fi = new FileInfo(Path.Combine(this.Root, outp.SubFolder, outp.FileName));
 
                 if (!Directory.Exists(fi.DirectoryName))
                     Directory.CreateDirectory(fi.DirectoryName);

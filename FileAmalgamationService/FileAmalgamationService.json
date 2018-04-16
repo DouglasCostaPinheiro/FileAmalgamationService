@@ -1,6 +1,6 @@
 [
   {
-    "Root": "*full path here*",
+    "Root": "C:\\Users\\admin\\Desktop\\Nova estrutura de scripts",
     "Inputs": [
       {
         "Type": "Text",
@@ -11,17 +11,18 @@
         "Expressions": []
       },
       {
-        "Type": "FileSearchExpressionRegex",
-        "Value": "*regex to filter file names*",
-        "SubFolder": null,
+        "Type": "FileSearchExpressionFilter",
+        "Value": "*.sql",
+        "SubFolder": "3.9",
         "Recursive": true,
-        "Encoding": "UTF-8",
+        "Encoding": null,
         "Expressions": []
       }
     ],
     "Outputs": [
       {
-        "FileName": "OUT\\out.sql",
+        "SubFolder": "OUT",
+        "FileName": "2.8.3_3.9.sql",
         "Encoding": null
       }
     ],

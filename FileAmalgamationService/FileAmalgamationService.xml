@@ -22,7 +22,8 @@
     <Outputs>
       <Output>
         <Encoding i:nil="true" />
-        <FileName>OUT\out.sql</FileName>
+        <SubFolder>OUT</SubFolder>
+        <FileName>out.sql</FileName>
       </Output>
     </Outputs>
     <Root>*folder to be monitored*</Root>

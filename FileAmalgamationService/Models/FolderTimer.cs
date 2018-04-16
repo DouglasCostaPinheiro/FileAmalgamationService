@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace FileAmalgamationService.Models
 {
-    public class FolderTimer
+    public class FolderTimer : IDisposable
     {
         public Timer Timer { get; private set; }
         public FileSystemWatcher FolderWatcher { get; private set; }
@@ -47,7 +47,7 @@ namespace FileAmalgamationService.Models
 
         private void FolderWatchEvent(object sender, FileSystemEventArgs e)
         {
-            if (this.Profile.Outputs.All(o => !(Path.Combine(this.Profile.Root, o.FileName) == e.FullPath)))
+            if (this.Profile.Outputs.All(o => !(Path.Combine(this.Profile.Root, o.SubFolder, o.FileName) == e.FullPath)))
             {
                 this.EventLog.WriteEntry(string.Format("Event of type '{0}' in file '{1}' triggered.", e.ChangeType, e.FullPath));
                 if (this.Timer.Enabled)
@@ -58,6 +58,13 @@ namespace FileAmalgamationService.Models
                 this.Timer.Start();
                 this.EventLog.WriteEntry(string.Format("Files will be processed in {0} seconds, unless a new change resets the timer.", this.Timer.Interval / 1000));
             }
+        }
+
+        public void Dispose()
+        {
+            Timer.Dispose();
+            FolderWatcher.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
