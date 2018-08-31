@@ -16,17 +16,17 @@
         <Recursive>true</Recursive>
         <SubFolder i:nil="true" />
         <Type>FileSearchExpressionRegex</Type>
-        <Value>*regex to filter file names*</Value>
+        <Value>regex to filter file names</Value>
       </Input>
     </Inputs>
     <Outputs>
       <Output>
         <Encoding i:nil="true" />
         <SubFolder>OUT</SubFolder>
-        <FileName>out.sql</FileName>
+        <FileName>OUTPUT_FILE.extension</FileName>
       </Output>
     </Outputs>
-    <Root>*folder to be monitored*</Root>
+    <Root>folder to be monitored (full path)</Root>
     <Separator>
 --SEPARATOR--
 </Separator>

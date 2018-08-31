@@ -15,16 +15,16 @@ namespace FileAmalgamationService.Models
         public Timer Timer { get; private set; }
         public FileSystemWatcher FolderWatcher { get; private set; }
         private Profile Profile { get; set; }
-        public EventLog EventLog { get; set; }
+        public log4net.ILog Log { get; set; }
 
-        public FolderTimer(Profile profile, EventLog eventLog)
+        public FolderTimer(Profile profile, log4net.ILog log)
         {
             this.Profile = profile;
-            this.EventLog = eventLog;
+            this.Log = log;
 
-            this.EventLog.WriteEntry(string.Format("Profile loaded: FolderTimer configured to watch '{0}'", this.Profile.Root));
+            this.Log.Info($"Profile loaded: FolderTimer configured to watch '{this.Profile.Root}'");
             
-            this.Timer = new Timer()
+            this.Timer = new Timer
             {
                 Interval = int.Parse(ConfigurationManager.AppSettings["watcherTimer"]) * 1000,
                 AutoReset = false
@@ -49,14 +49,14 @@ namespace FileAmalgamationService.Models
         {
             if (this.Profile.Outputs.All(o => !(Path.Combine(this.Profile.Root, o.SubFolder, o.FileName) == e.FullPath)))
             {
-                this.EventLog.WriteEntry(string.Format("Event of type '{0}' in file '{1}' triggered.", e.ChangeType, e.FullPath));
+                this.Log.Info($"Event of type '{e.ChangeType}' in file '{e.FullPath}' triggered.");
                 if (this.Timer.Enabled)
                 {
-                    this.EventLog.WriteEntry("Resetting previous timer...");
+                    this.Log.Info("Resetting previous timer...");
                     this.Timer.Stop();
                 }
                 this.Timer.Start();
-                this.EventLog.WriteEntry(string.Format("Files will be processed in {0} seconds, unless a new change resets the timer.", this.Timer.Interval / 1000));
+                this.Log.Info($"Files will be processed in {this.Timer.Interval / 1000} seconds, unless a new change resets the timer.");
             }
         }
 

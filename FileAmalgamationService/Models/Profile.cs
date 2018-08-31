@@ -71,12 +71,14 @@ namespace FileAmalgamationService.Models
                         break;
                     case Enums.InputType.FileSearchExpressionFilter:
                         dir = new DirectoryInfo(Path.Combine(this.Root, inp.SubFolder ?? ""));
-                        v = string.Join(this.Separator,dir.GetFiles(inp.Value).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
+                        v = string.Join(this.Separator, dir.GetFiles(inp.Value, inp.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).Where(file => !this.Outputs.Any(otp => Path.Combine(this.Root, otp.SubFolder ?? "", otp.FileName).Equals(file.FullName, System.StringComparison.CurrentCultureIgnoreCase))).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
                         break;
                     case Enums.InputType.FileSearchExpressionRegex:
                         dir = new DirectoryInfo(Path.Combine(this.Root, inp.SubFolder ?? ""));
-                        v = string.Join(this.Separator, dir.GetFiles().Where(file => new Regex(inp.Value, RegexOptions.CultureInvariant).IsMatch(file.Name)).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
+                        v = string.Join(this.Separator, dir.GetFiles("*", inp.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).Where(file => new Regex(inp.Value, RegexOptions.CultureInvariant).IsMatch(file.Name)).Where(file => !this.Outputs.Any(otp => Path.Combine(this.Root, otp.SubFolder ?? "", otp.FileName).Equals(file.FullName, System.StringComparison.CurrentCultureIgnoreCase))).Select(file => File.ReadAllText(file.FullName, inp.ParsedEncoding ?? file.GuessEncoding())));
                         break;
+                    default:
+                        throw new System.Exception("Unexpected Case");
                 }
 
                 foreach (var expr in inp.Expressions)

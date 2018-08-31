@@ -1,19 +1,27 @@
 [
   {
-    "Root": "C:\\Users\\admin\\Desktop\\Nova estrutura de scripts",
+    "Root": "folder to be monitored (full path)",
     "Inputs": [
       {
         "Type": "Text",
-        "Value": "--FILE AMALGAMATION",
-        "SubFolder": null,
+        "Value": "INSERT FIXED TEXT HERE",
+        "SubFolders": null,
         "Recursive": true,
         "Encoding": null,
         "Expressions": []
       },
       {
         "Type": "FileSearchExpressionFilter",
-        "Value": "*.sql",
-        "SubFolder": "3.9",
+        "Value": "*.extension",
+        "SubFolders": null,
+        "Recursive": true,
+        "Encoding": null,
+        "Expressions": []
+      },
+      {
+        "Type": "FileSearchExpressionRegex",
+        "Value": "regex to filter file names",
+        "SubFolders": null,
         "Recursive": true,
         "Encoding": null,
         "Expressions": []
@@ -22,10 +30,10 @@
     "Outputs": [
       {
         "SubFolder": "OUT",
-        "FileName": "2.8.3_3.9.sql",
+        "FileName": "*OUTPUT_FILE.extension*",
         "Encoding": null
       }
     ],
-    "Separator": "\r\n--SEPARATOR--\r\n"
+    "Separator": "--SEPARATOR--"
   }
 ]

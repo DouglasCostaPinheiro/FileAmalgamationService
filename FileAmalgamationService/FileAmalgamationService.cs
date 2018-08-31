@@ -21,6 +21,9 @@ namespace FileAmalgamationService
         private static readonly string configType = ConfigurationManager.AppSettings["ConfigType"];
         private static string profileFilePath = Path.ChangeExtension(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, nameof(FileAmalgamationService)), GetConfigTypeExtension());
 
+        //Log
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public FileAmalgamationService()
         {
@@ -41,16 +44,16 @@ namespace FileAmalgamationService
 
         protected override void OnStart(string[] args)
         {
-            EventLog.WriteEntry("FileAmalgamationService started.", EventLogEntryType.Information);
+            log.Info("FileAmalgamationService started.");
 
             LoadProfiles();
 
-            folderTimers = this.profiles.Select(p => new FolderTimer(p, this.EventLog)).ToList();
+            folderTimers = this.profiles.Select(p => new FolderTimer(p, log)).ToList();
         }
 
         protected override void OnStop()
         {
-            EventLog.WriteEntry("FileAmalgamationService stopped.", EventLogEntryType.Information);
+            log.Info("FileAmalgamationService stopped.");
         }
 
         private void LoadProfiles()
@@ -98,7 +101,7 @@ namespace FileAmalgamationService
             }
             catch (Exception ex)
             {
-                this.EventLog.WriteEntry($"Error saving profiles: {ex.Message}", EventLogEntryType.Error);
+                log.Error($"Error saving profiles: {ex.Message}");
             }
         }
 
